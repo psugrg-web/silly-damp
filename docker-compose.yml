@@ -1,14 +1,16 @@
 services:
-    php:
+    app:
         build:
-            context: '.'
+            context: .
             args:
                 uid: ${UID}
+                username: ${USERNAME}
+        restart: unless-stopped
         ports:
             - 8080:80
         environment:
-            - APACHE_RUN_USER=#1000
-            - APACHE_RUN_GROUP=#1000
+            - APACHE_RUN_USER=#${UID}
+            - APACHE_RUN_GROUP=#${UID}
         volumes:
             - ./www:/var/www/html
     mysql:

@@ -21,7 +21,8 @@ RUN apt-get update && apt-get install -y \
 # 2. Apache configs + document root.
 RUN echo "ServerName laravel-app.local" >> /etc/apache2/apache2.conf
 
-ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
+ENV APACHE_WWW_APP_PATH=/var/www/html
+ENV APACHE_DOCUMENT_ROOT=${APACHE_WWW_APP_PATH}/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
@@ -49,7 +50,12 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # so when we execute CLI commands, all the host file's permissions and ownership remain intact.
 # Otherwise commands from inside the container would create root-owned files and directories.
 ARG uid
-RUN useradd -G www-data,root -u $uid -d /home/devuser devuser
-RUN mkdir -p /home/devuser/.composer && \
-    chown -R devuser:devuser /home/devuser
-USER devuser
+ARG username
+RUN useradd -G www-data,root -u ${uid} -d /home/${username} ${username}
+RUN mkdir -p /home/${username}/.composer && \
+    chown -R ${username}:${username} /home/${username}
+USER ${username}
+
+ENV USER_APP_PATH=/home/${username}/app
+RUN ln -s ${APACHE_WWW_APP_PATH} ${USER_APP_PATH}
+WORKDIR ${USER_APP_PATH}
