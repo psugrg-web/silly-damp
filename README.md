@@ -12,7 +12,6 @@ Very basic approach that's primarily designed to act as a snippet for simple dev
 Run the following command to compile and run the complete suite
 
 ```sh
-export UID=${UID}
 docker compose build && docker compose up -d
 ```
 
