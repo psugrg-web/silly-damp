@@ -12,7 +12,8 @@ services:
             - APACHE_RUN_USER=#${UID}
             - APACHE_RUN_GROUP=#${UID}
         volumes:
-            - ./www:/var/www/html
+            - ./app:/var/www/html
+            - .:/home/${USERNAME}/project
     mysql:
         image: mysql:8.0
         restart: unless-stopped
