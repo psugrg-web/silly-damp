@@ -17,7 +17,6 @@
 
         <?php
 
-        // $mysqli = new mysqli("mysqli", "user", "test", "myDb");
         $mysqli = mysqli_connect('mysql', 'user', 'test', "myDb");
 
         // Check connection
