@@ -24,11 +24,54 @@ It contains a simple example application located in the `/app` directory, and a 
 
 ### Start new Laravel project
 
-> WIP
+- Delete the `/app/public` folder **and** the `/dump/myDb.shq` file **before** creating the image.
+- Create `.env` file with configuration in the top level directory. You can use `.env.example` file as a starting point. Just use `cp .env.example .env`.
+- *Optionally*[^1] export `UID` to expose the user id as an environmental variable by calling `export UID=${UID}`[^2].
+- Run the following command to compile and run the complete suite
 
-> [!NOTE]
->
-> The anem of the image will be the same as the folder name of the project.
+    ```sh
+    docker compose build && docker compose up -d
+    ```
+
+    > [!NOTE]
+    >
+    > The name of the image will be the same as the folder name of the project.
+
+- Attach to runing container that has been created
+- Stay on the top level directory
+- Run `composer global require laravel/installer` to install the *Laravel* framework.
+
+    > [!NOTE]
+    >
+    > This will install the *Laravel* framework binaries to `~/.composer/vendor/bin` directory.
+
+- Run `~/composer/vendor/bin/laravel new example-applaravel new app -f` to create a new example application.
+
+    > [!NOTE]
+    >
+    > The `/app` folder exists therefore we must force the app creation by using the `-f` flag.
+
+- Select *MySql` as a database in the configuration wizard.
+
+- Restart docker container containing the app.
+
+    > [!NOTE]
+    >
+    > After installation the `/app/public` volume mounting point may be broken. Docker container restart will fix the problem.
+
+- Update database configuration in the `/app/.env` file.
+
+    ```env
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=app
+    DB_USERNAME=root
+    DB_PASSWORD=
+    ```
+
+- Run `php artisan migrate:fresh` to initialize the database.
+
 
 [^1]: Default `UID`, set by the `.env` file will be used if this step is not performed.  
 [^2]: This should be done even if there's an automatic Bash `UID` read only variable present since it is ignored by the docker.
