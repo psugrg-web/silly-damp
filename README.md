@@ -4,10 +4,6 @@ Very basic approach that's primarily designed to act as a snippet for simple dev
 
 It contains a simple example application located in the `/app` directory, and a simple example of a *MySql* dump file `/dump/myDb.sql` that can be used to initialize the database.
 
-> [!IMPORTANT]
->
-> If you want to start from scratch, i.e. to start a new [Laravel](https://laravel.com/) project, it's recommended to delete the `/app/public` folder **and** the `/dump/myDb.shq` file **before** creating the image.
-
 ## Usage
 
 ### Create & run the example application
