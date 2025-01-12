@@ -43,6 +43,7 @@ RUN docker-php-ext-install \
     mbstring \
     opcache \
     pdo_mysql \
+    mysqli \
     zip
 
 # Install Composer (just copy it from the latest composer image)
