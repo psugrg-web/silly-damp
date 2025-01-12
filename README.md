@@ -45,14 +45,14 @@ It contains a simple example application located in the `/app` directory, and a 
     >
     > This will install the *Laravel* framework binaries to `~/.composer/vendor/bin` directory.
 
-- Run `~/composer/vendor/bin/laravel new example-applaravel new app -f` to create a new example application.
+- Run `~/.composer/vendor/bin/laravel new app -f` to create a new example application.
 
     > [!NOTE]
     >
     > The `/app` folder exists therefore we must force the app creation by using the `-f` flag.
 
 - Select *MySql` as a database in the configuration wizard.
-
+- Don't run default database migrations when asked by the configuration wizard.
 - Restart docker container containing the app.
 
     > [!NOTE]
@@ -61,7 +61,7 @@ It contains a simple example application located in the `/app` directory, and a 
 
 - Update database configuration in the `/app/.env` file.
 
-    ```env
+    ```txt
     DB_CONNECTION=mysql
     DB_HOST=127.0.0.1
     DB_PORT=3306
@@ -70,7 +70,20 @@ It contains a simple example application located in the `/app` directory, and a 
     DB_PASSWORD=
     ```
 
+    > [!TIP]
+    > 
+    > This is how it looks when used with the example configuration:
+    > ```txt
+    > DB_CONNECTION=mysql
+    > DB_HOST=mysql
+    > DB_PORT=3306
+    > DB_DATABASE=myDb
+    > DB_USERNAME=user
+    > DB_PASSWORD=test
+    > ```
+
 - Run `php artisan migrate:fresh` to initialize the database.
+- Navigate to [localhost:8080](localhost:8080) in your browser to access the application, and [localhost:8081](localhost:8081) to access *phpMyAdmin*.
 
 
 [^1]: Default `UID`, set by the `.env` file will be used if this step is not performed.  
