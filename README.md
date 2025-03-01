@@ -3,107 +3,122 @@
 Very basic approach that's primarily designed to act as a snippet for simple
 development and learning activities.
 
-It contains a simple example application located in the `/app` directory,
-and a simple example of a _MySql_ dump file `/dump/myDb.sql` that can be used to
-initialize the database.
+It contains a simple example application, and a simple example of a _MySql_
+dump file `/dump/myDb.sql` that is used to initialize the database for that
+application.
+
+The project contains also the instruction of how to create a _Laravel_ application.
 
 ## Folder & files structure
 
-How I would like to use it?
+The folder structure is inspired by the _Laravel_ project, and is probably
+similar to any web project.
 
-The idea would be to to squeeze the
+The top level directory of the project is linked to `/var/www/html` folder
+and the `/public` folder is exposed by the _Apache_ server.
 
 ## Usage
 
+> [!IMPORTANT]
+> Export `UID` to expose the user id as an environment variable by calling
+> `export UID=${UID}`[^1].  
+> Export `USER` to expose the user id as an environment variable by calling
+> `export USERNAME=${USER}`.
+
 ### Create & run the example application
 
-- Create `.env` file with configuration in the top level directory. You can use
-  `.env.example` file as a starting point. Just use `cp .env.example .env`.
-- _Optionally_[^1] export `UID` to expose the user id as an environmental
-  variable by calling `export UID=${UID}`[^2].
-- Run the following command to compile and run the complete suite
+Create `.env` file with configuration in the top level directory. You can use
+`.env.example` file as a starting point. Just use `cp .env.example .env`.
 
-  ```sh
-  docker compose build && docker compose up -d
-  ```
+Run the following command to compile and run the complete suite with the example
+application.
 
-- Navigate to [localhost:8080](localhost:8080) in your browser to access the
-  application, and [localhost:8081](localhost:8081) to access _phpMyAdmin_.
+```sh
+docker compose build && docker compose up -d
+```
+
+> [!NOTE]
+> Navigate to [localhost:8080](localhost:8080) in your browser to access the
+> application, and [localhost:8081](localhost:8081) to access _phpMyAdmin_.
 
 ### Start new Laravel project
 
-- Delete the `/app/public` folder **and** the `/dump/myDb.shq` file **before**
-  creating the image.
-- Create `.env` file with configuration in the top level directory. You can use
-  `.env.example` file as a starting point. Just use `cp .env.example .env`.
-- _Optionally_[^1] export `UID` to expose the user id as an environmental
-  variable by calling `export UID=${UID}`[^2].
-- Run the following command to compile and run the complete suite
+The development environment can be used to start a new Laravel project. Start
+from compiling an running the development environment.
 
-  ```sh
-  docker compose build && docker compose up -d
-  ```
+```sh
+docker compose build && docker compose up -d
+```
 
-  > [!NOTE]
-  >
-  > The name of the image will be the same as the folder name of the project.
+> [!NOTE]
+> The name of the image will be the same as the folder name of the project.
 
-- Attach to runing container that has been created
-- Stay on the top level directory
-- Run `composer global require laravel/installer` to install the _Laravel_ framework.
+Attach to runing container that has been created.
 
-  > [!NOTE]
-  >
-  > This will install the _Laravel_ framework binaries to `~/.composer/vendor/bin`
-  > directory.
+```sh
+docker exec -it silly-damp-app-1 bash
+```
 
-- Run `~/.composer/vendor/bin/laravel new app -f` to create a new example application.
+Run `composer global require laravel/installer` to install the _Laravel_ framework.
 
-  > [!NOTE]
-  >
-  > The `/app` folder exists therefore we must force the app creation by using
-  > the `-f` flag.
+> [!NOTE]
+> This will install the _Laravel_ framework binaries to `~/.composer/vendor/bin`
+> directory.
 
-- Select \*MySql` as a database in the configuration wizard.
-- Don't run default database migrations when asked by the configuration wizard.
-- Restart docker container containing the app.
+Initialize the _Laravel_ application.
 
-  > [!NOTE]
-  >
-  > After installation the `/app/public` volume mounting point may be broken.
-  > Docker container restart will fix the problem.
+```sh
+rm -r ./public && rm -r ./dump \
+&& ~/.composer/vendor/bin/laravel new my_app \
+&& rm ./my_app/README.md && shopt -s dotglob && mv ./my_app/* . && rmdir my_app
+```
 
-- Update database configuration in the `/app/.env` file.
+> [!NOTE]
+> The `/dump` folder is not needed in this step since we're creating the app
+> from scratch, and the `/public` folder will be replaced by the _Laravel_
+> application, therefore both are removed by the script.  
+> The _Laravel_ environment will be created using composer. It will create the
+> application in the temporary directory named `my_app`. The content of that
+> folder will then be moved to the root directory of the project (except the
+> `README.md` file). The temporary folder will be removed.  
+> This way the whole project is nicely located in the top level directory.
 
-  ```txt
-  DB_CONNECTION=mysql
-  DB_HOST=127.0.0.1
-  DB_PORT=3306
-  DB_DATABASE=app
-  DB_USERNAME=root
-  DB_PASSWORD=
-  ```
+Select `MySql` as a database in the configuration wizard, but **Don't run default
+database migrations** when asked by the configuration wizard, since the
+configuration of the database is not yet created.
 
-  > [!TIP]
-  >
-  > This is how it looks when used with the example configuration:
-  >
-  > ```txt
-  > DB_CONNECTION=mysql
-  > DB_HOST=mysql
-  > DB_PORT=3306
-  > DB_DATABASE=myDb
-  > DB_USERNAME=user
-  > DB_PASSWORD=test
-  > ```
+Update database configuration in the `/.env` file.
 
-- Run `php artisan migrate:fresh` to initialize the database.
-- Navigate to [localhost:8080](localhost:8080) in your browser to access the
-  application, and [localhost:8081](localhost:8081) to access _phpMyAdmin_.
+```txt
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=app
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-[^1]: Default `UID`, set by the `.env` file will be used if this step is not performed.
+> [!TIP]
+> This is how it looks when used with the example configuration:
+>
+> ```txt
+> DB_CONNECTION=mysql
+> DB_HOST=mysql
+> DB_PORT=3306
+> DB_DATABASE=myDb
+> DB_USERNAME=user
+> DB_PASSWORD=test
+> ```
 
-[^2]: This should be done even if there's an automatic Bash `UID` read only variable present since it is ignored by the docker.
+Run `php artisan migrate:fresh` to initialize the database.
+
+> [!NOTE]
+> Navigate to [localhost:8080](localhost:8080) in your browser to access the
+> application, and [localhost:8081](localhost:8081) to access _phpMyAdmin_.
+
+[^1]:
+    Default `UID`, set by the `.env` file will be used if this step is not performed.
+    This should be done even if there's an automatic Bash `UID` read only variable present since it is ignored by the docker.
 
 ## Notes
 
