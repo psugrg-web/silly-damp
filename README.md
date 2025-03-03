@@ -87,9 +87,9 @@ Run `composer global require laravel/installer` to install the _Laravel_ framewo
 Initialize the _Laravel_ application.
 
 ```sh
-rm -r ./public && rm -r ./dump \
+rm -r ./public && rm -r ./dump && rm -r ./conf \
 && ~/.composer/vendor/bin/laravel new my_app \
-&& rm ./my_app/README.md && shopt -s dotglob && mv ./my_app/* . && rmdir my_app
+&& shopt -s dotglob && mv ./my_app/* . && rmdir my_app
 ```
 
 > [!NOTE]
