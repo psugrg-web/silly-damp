@@ -17,7 +17,7 @@
 
         <?php
 
-        $mysqli = mysqli_connect('mysql', 'user', 'test', "myDb");
+        $mysqli = mysqli_connect('mysql', 'app_user', 'app_password', "app_database");
 
         // Check connection
         if ($mysqli->connect_errno) {

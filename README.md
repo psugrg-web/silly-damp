@@ -19,16 +19,35 @@ and the `/public` folder is exposed by the _Apache_ server.
 
 ## Usage
 
+Export `UID` to expose the user id as an environment variable by calling.
+Export `USER` to expose the user id as an environment variable by calling.[^1]
+
+```sh
+export UID=${UID}
+export USERNAME=${USER}
+```
+
+Export database settings that will be used to initialize the MySql database
+during the docker compose build process.
+
 > [!IMPORTANT]
-> Export `UID` to expose the user id as an environment variable by calling
-> `export UID=${UID}`[^1].  
-> Export `USER` to expose the user id as an environment variable by calling
-> `export USERNAME=${USER}`.
+> Choose the database and user names for your application and generate
+> strong passwords!
+
+```sh
+export DB_DATABASE=app_database
+export DB_USERNAME=app_user
+export DB_PASSWORD=app_password
+export DB_ROOT_PASSWORD=root_password
+```
 
 ### Create & run the example application
 
-Create `.env` file with configuration in the top level directory. You can use
-`.env.example` file as a starting point. Just use `cp .env.example .env`.
+Update the `mysqli_connect()` function in the `public/index.php` file to match
+the database settings from above.
+
+> [!TIP]
+> The real life application would rather use the `.env`file to store such data.
 
 Run the following command to compile and run the complete suite with the example
 application.
@@ -87,7 +106,10 @@ Select `MySql` as a database in the configuration wizard, but **Don't run defaul
 database migrations** when asked by the configuration wizard, since the
 configuration of the database is not yet created.
 
-Update database configuration in the `/.env` file.
+Update database configuration in the `/.env` file to match the configuration exported
+to shell variables (used in docker compose build process) described above.
+
+Search the following text block:
 
 ```txt
 DB_CONNECTION=mysql
@@ -105,9 +127,9 @@ DB_PASSWORD=
 > DB_CONNECTION=mysql
 > DB_HOST=mysql
 > DB_PORT=3306
-> DB_DATABASE=myDb
-> DB_USERNAME=user
-> DB_PASSWORD=test
+> DB_DATABASE=app_database
+> DB_USERNAME=app_user
+> DB_PASSWORD=app_password
 > ```
 
 Run `php artisan migrate:fresh` to initialize the database.
@@ -118,7 +140,8 @@ Run `php artisan migrate:fresh` to initialize the database.
 
 [^1]:
     Default `UID`, set by the `.env` file will be used if this step is not performed.
-    This should be done even if there's an automatic Bash `UID` read only variable present since it is ignored by the docker.
+    This should be done even if there's an automatic Bash `UID` read only variable
+    present since it is ignored by the docker.
 
 ## Notes
 
