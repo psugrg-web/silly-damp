@@ -9,6 +9,12 @@ application.
 
 The project contains also the instruction of how to create a _Laravel_ application.
 
+> [!IMPORTANT]
+> It has two mutualy exclusive usages:
+>
+> - Simple PHP Application
+> - Laravel Application
+
 ## Folder & files structure
 
 The folder structure is inspired by the _Laravel_ project, and is probably
@@ -41,10 +47,10 @@ export DB_PASSWORD=app_password
 export DB_ROOT_PASSWORD=root_password
 ```
 
-### Create & run the example application
+### Usage 1: Create & run the example PHP application
 
-Update the `mysqli_connect()` function in the `public/index.php` file to match
-the database settings from above.
+In case you changed db setting from the previous step, update the `mysqli_connect()` function in the
+`public/index.php` file to match the changed settings.
 
 > [!TIP]
 > The real life application would rather use the `.env`file to store such data.
@@ -60,7 +66,7 @@ docker compose build && docker compose up -d
 > Navigate to [localhost:8080](localhost:8080) in your browser to access the
 > application, and [localhost:8081](localhost:8081) to access _phpMyAdmin_.
 
-### Start new Laravel project
+### Usage 2: Start new Laravel project
 
 The development environment can be used to start a new Laravel project. Start
 from compiling an running the development environment.
