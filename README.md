@@ -11,6 +11,7 @@ The project contains also the instruction of how to create a _Laravel_ applicati
 
 > [!IMPORTANT]
 > It has two mutualy exclusive usages:
+>
 > - Simple PHP Application
 > - Laravel Application
 
