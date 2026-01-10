@@ -25,6 +25,9 @@ and the `/public` folder is exposed by the _Apache_ server.
 
 ## Usage
 
+> [!IMPORTANT]
+> This release introduces an incompatible change to the MySQL database! Please remove the `silly-damp_persistent` storage.
+
 Export `UID` to expose the user id as an environment variable by calling.
 Export `USER` to expose the user id as an environment variable by calling.[^1]
 
