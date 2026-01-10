@@ -84,7 +84,7 @@ docker compose build && docker compose up -d
 Attach to runing container that has been created.
 
 ```sh
-docker exec -it silly-damp-app-1 bash
+docker exec -it silly-damp-web-1 bash
 ```
 
 Run `composer global require laravel/installer` to install the _Laravel_ framework.
