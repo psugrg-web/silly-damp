@@ -1,6 +1,6 @@
 # Release Notes
 
-## Unreleased
+## v0.2.0
 
 - PHP update to v8.4
 - MySQL update to v9.5.0 - These changes are backwards incompatible. Please remove persistent volume.
