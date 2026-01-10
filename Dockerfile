@@ -24,11 +24,6 @@ RUN apt-get update && apt-get install -y \
 # Apache configuration
 RUN echo "ServerName web-app.local" >> /etc/apache2/apache2.conf
 
-ENV APACHE_WWW_APP_PATH=/var/www/html
-ENV APACHE_DOCUMENT_ROOT=${APACHE_WWW_APP_PATH}/public
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
-RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
-
 # Mod_rewrite for URL rewrite and mod_headers for .htaccess extra headers like Access-Control-Allow-Origin-
 RUN a2enmod rewrite headers
 
