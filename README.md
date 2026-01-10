@@ -111,6 +111,8 @@ rm -r ./public && rm -r ./dump && rm -r ./conf \
 > `README.md` file). The temporary folder will be removed.  
 > This way the whole project is nicely located in the top level directory.
 
+Select `None` when asked to select the starter kit to be installed
+
 Select `MySql` as a database in the configuration wizard, but **Don't run default
 database migrations** when asked by the configuration wizard, since the
 configuration of the database is not yet created.
